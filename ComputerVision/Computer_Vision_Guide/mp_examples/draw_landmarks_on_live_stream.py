@@ -1,9 +1,14 @@
 import cv2
 import mediapipe as mp
+from time import sleep
+
+fhand = open("location_time.txt", "w")
 
 # Initialize MediaPipe Pose class and drawing utilities
 mp_pose = mp.solutions.pose
 mp_drawing = mp.solutions.drawing_utils
+
+frames = 0
 
 # Start video capture from the webcam
 cap = cv2.VideoCapture(0)
@@ -12,6 +17,8 @@ cap = cv2.VideoCapture(0)
 with mp_pose.Pose() as pose:
     while cap.isOpened():
         ret, frame = cap.read()
+        frames += 1
+
         if not ret:
             print("Failed to capture image")
             break
@@ -30,7 +37,11 @@ with mp_pose.Pose() as pose:
                 frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS
             )
             # Print landmark coordinates in (x, y, z) format of landmark 16
-            print(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST])
+            # print(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST])
+            if frames == 30:
+                fhand.write("x: " + str(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST].x) + "\n")
+                # fhand.write("x")
+                frames = 0
 
         # Display the output
         cv2.imshow('Pose Estimation', frame)
