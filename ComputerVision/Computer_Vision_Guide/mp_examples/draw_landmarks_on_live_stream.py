@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-from time import sleep
+import time
 
 fhand = open("location_time.txt", "w")
 
@@ -38,6 +38,7 @@ threshold_dist = 0.05
 
 # Initialize Pose Estimation with default parameters
 with mp_pose.Pose() as pose:
+    start = time.time()
     while cap.isOpened():
         ret, frame = cap.read()
         frames += 1
@@ -91,10 +92,12 @@ with mp_pose.Pose() as pose:
                 total_dist += d_left + d_right
 
                 # ----- AVERAGE SPEED -----
-                time_elapsed += 3/30
+                end = time.time()
+                time_elapsed = end - start
                 avg_speed = total_dist / time_elapsed
                 
-                print("Total distance: " + str(total_dist) + " m" + "\nAverage speed: " + str(avg_speed) + " m/s" + "\nTime elapsed: " + str(time_elapsed) + " s")
+                
+                print("Total distance: " + str(total_dist) + " m" + "\nAverage speed: " + str(avg_speed) + " m/s" + "\nTime elapsed: " + str(time_elapsed) + " s\n")
                 frames = 0
 
         # Display the output
