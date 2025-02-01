@@ -32,6 +32,8 @@ x_left_new = 0
 y_left_new = 0
 z_left_new = 0
 
+time_elapsed = 0
+
 threshold_dist = 0.05
 
 # Initialize Pose Estimation with default parameters
@@ -89,9 +91,10 @@ with mp_pose.Pose() as pose:
                 total_dist += d_left + d_right
 
                 # ----- AVERAGE SPEED -----
+                time_elapsed += 3/30
+                avg_speed = total_dist / time_elapsed
                 
-
-                print("Total distance: " + str(total_dist) + " m")
+                print("Total distance: " + str(total_dist) + " m" + "\nAverage speed: " + str(avg_speed) + " m/s" + "\nTime elapsed: " + str(time_elapsed) + " s")
                 frames = 0
 
         # Display the output
