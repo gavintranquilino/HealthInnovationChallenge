@@ -36,12 +36,11 @@ with mp_pose.Pose() as pose:
             mp_drawing.draw_landmarks(
                 frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS
             )
-            # Print landmark coordinates in (x, y, z) format of landmark 16
             # print(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST])
-            if frames == 30:
-                fhand.write("x: " + str(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST].x) + "\n")
-                # fhand.write("x")
-                frames = 0
+            # if frames == 30:
+            #     fhand.write("x: " + str(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST].x) + "\n")
+            #     # fhand.write("x")
+            #     frames = 0
 
             # Print WORLD landmark coordinates in (x, y, z) format of landmark RIGHT_WRIST
             print(str(result.pose_world_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST.value].z) + " " + str(result.pose_world_landmarks.landmark[mp_pose.PoseLandmark.LEFT_WRIST.value].z))
