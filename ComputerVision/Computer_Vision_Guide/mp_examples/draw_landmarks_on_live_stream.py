@@ -16,6 +16,8 @@ with mp_pose.Pose() as pose:
             print("Failed to capture image")
             break
 
+        frame = cv2.flip(frame, 1)
+
         # Convert the frame color from BGR to RGB
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -27,9 +29,13 @@ with mp_pose.Pose() as pose:
             mp_drawing.draw_landmarks(
                 frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS
             )
+            # Print landmark coordinates in (x, y, z) format of landmark 16
+            print(result.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST])
 
         # Display the output
         cv2.imshow('Pose Estimation', frame)
+
+        #
 
         # Break the loop when 'q' key is pressed
         if cv2.waitKey(10) & 0xFF == ord('q'):
