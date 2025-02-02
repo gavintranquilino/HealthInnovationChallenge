@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 
-fhand = open("location_time.txt", "w")
+fhand = open("./ComputerVision/Computer_Vision_Guide/mp_examples/points.txt", "w")
 
 # Initialize MediaPipe Pose class and drawing utilities
 mp_pose = mp.solutions.pose
@@ -35,6 +35,13 @@ z_left_new = 0
 time_elapsed = 0
 
 threshold_dist = 0.05
+
+# Convert distance, average_speed into points
+def dataToRewards(distance, average_speed, time):
+    return time*(distance*0.001+average_speed*0.1)
+
+name = "Test User"
+patient_ID = "007420"
 
 # Initialize Pose Estimation with default parameters
 with mp_pose.Pose() as pose:
@@ -105,6 +112,10 @@ with mp_pose.Pose() as pose:
 
         # Break the loop when 'q' key is pressed
         if cv2.waitKey(10) & 0xFF == ord('q'):
+            points = dataToRewards(total_dist, avg_speed, time_elapsed)
+            # fhand.write("Name: " + name + "\n")
+            # fhand.write("Patient ID: " + patient_ID + "\n")
+            fhand.write(str(int(round(points, 0))))
             break
 
 # Release resources
