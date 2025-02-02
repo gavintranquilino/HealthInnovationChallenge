@@ -1,8 +1,10 @@
 import cv2
 import mediapipe as mp
-import time
+import time, requests
 
-fhand = open("./ComputerVision/Computer_Vision_Guide/mp_examples/points.txt", "w")
+# fhand = open("./ComputerVision/Computer_Vision_Guide/mp_examples/points.txt", "w")
+url = "https://d3af-129-97-124-10.ngrok-free.app/points"
+key = "points"
 
 # Initialize MediaPipe Pose class and drawing utilities
 mp_pose = mp.solutions.pose
@@ -38,7 +40,7 @@ threshold_dist = 0.05
 
 # Convert distance, average_speed into points
 def dataToRewards(distance, average_speed, time):
-    return time*(distance*0.001+average_speed*0.1)
+    return int(round(time*(distance*0.001+average_speed*0.1)))
 
 name = "Test User"
 patient_ID = "007420"
@@ -113,9 +115,8 @@ with mp_pose.Pose() as pose:
         # Break the loop when 'q' key is pressed
         if cv2.waitKey(10) & 0xFF == ord('q'):
             points = dataToRewards(total_dist, avg_speed, time_elapsed)
-            # fhand.write("Name: " + name + "\n")
-            # fhand.write("Patient ID: " + patient_ID + "\n")
-            fhand.write(str(int(round(points, 0))))
+            # print(points)
+            requests.post(url, json={"points" : points})
             break
 
 # Release resources

@@ -171,4 +171,5 @@ cython_debug/
 .pypirc
 
 
-# points.txt
+points.txt
+ComputerVision/Computer_Vision_Guide/mp_examples/points.py
